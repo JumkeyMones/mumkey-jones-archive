@@ -47,8 +47,8 @@ function Homepage() {
       </p>
 
       <p>
-        The source code for this website is
-        <a href='https://github.com/JumkeyMones/mumkey-jones-archive'>on GitHub</a>.
+        The <a href='https://github.com/JumkeyMones/mumkey-jones-archive'>source code</a> for this
+        website is available on GitHub.
       </p>
 
       <hr />
