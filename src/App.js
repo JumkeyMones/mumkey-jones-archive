@@ -46,6 +46,11 @@ function Homepage() {
         buffering.
       </p>
 
+      <p>
+        The source code for this website is
+        <a href='https://github.com/JumkeyMones/mumkey-jones-archive'>on GitHub</a>.
+      </p>
+
       <hr />
 
       {archive.series.map(seriesTemplate)}
