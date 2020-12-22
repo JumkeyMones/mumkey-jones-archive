@@ -1,38 +1,75 @@
-.App {
+@import 'https://unpkg.com/purecss@2.0.3/build/pure-min.css';
+@import 'https://unpkg.com/purecss@2.0.3/build/grids-responsive-min.css';
+@import 'https://fonts.googleapis.com/css?family=Karla';
+
+html,
+button,
+input,
+select,
+textarea,
+.pure-g [class*='pure-u'] {
+  font-family: 'Karla', sans-serif;
+}
+
+.pure-g {
+  justify-content: center;
+}
+
+body {
+  background-image: url(https://i.imgur.com/HzlGXSp.png);
+}
+
+#logo {
+  max-width: 128px;
+  max-height: 128px;
+  display: block;
+  margin: 1em auto;
+}
+
+h1,
+h2,
+h3 {
+  font-weight: normal;
   text-align: center;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+h1,
+h2,
+h3,
+a,
+a:visited {
+  color: #0c9e86;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+hr {
+  border: none;
+  border-top: 1px dashed #0c9e86;
+  margin: 0 2em;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+nav {
+  margin: 1em 0;
+  text-align: center;
 }
 
-.App-link {
-  color: #61dafb;
+video {
+  width: 100%;
+  max-width: 100%;
+  margin: 1em 0;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.justified {
+  text-align: justify;
+}
+
+.header {
+  font-size: 1.5rem;
+  color: #0c9e86;
+}
+
+.pure-u-wrapper {
+  padding: 1rem;
+  margin: 1rem;
+  border: 1px solid #0c9e86;
+  background-color: white;
 }
