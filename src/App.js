@@ -14,8 +14,20 @@ One-liner to grab episodes:
 [...document.getElementsByTagName('a')].filter(a => a.href.endsWith('.ia.mp4')).map(a => `Episode("${a.innerText}", "${a.href}"),`).join('\n')
 */
 
-function App() {
+function dumpArchive() {
+  const urls = [];
+  for (const s of archive.series) {
+    for (const e of s.episodes) {
+      urls.push(e.video);
+    }
+  }
+  console.log(urls);
   console.log(archive);
+}
+
+function App() {
+  dumpArchive();
+
   return (
     <Store>
       <BrowserRouter>
