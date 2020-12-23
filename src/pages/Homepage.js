@@ -30,11 +30,7 @@ export default function Homepage({ archive }) {
 
   return (
     <div id='homepage-container' className='pure-u-wrapper'>
-      <img
-        id='logo'
-        src='http://mumkeyjones.tv/wp-content/uploads/2018/12/Mumkey_Jones-300x300.png'
-        alt='Mumkey Jones logo'
-      />
+      <img id='logo' src='/logo512.png' alt='Mumkey Jones logo' />
       <h1>{archive.title}</h1>
 
       <hr />
