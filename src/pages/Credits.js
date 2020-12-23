@@ -9,6 +9,7 @@ export default function Credits() {
 
       {[
         'https://mumkeyjones.tv/',
+        'https://archive.org/details/mumkey-jones-condensed-experience',
         'https://archive.org/details/mumkeyjones/',
         'https://archive.org/details/mumkeyjones2july2017/',
         'https://archive.org/details/REUPLOADMumkeysDeclassifiedLoveSurvivalGuide/',

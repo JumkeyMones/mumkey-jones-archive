@@ -84,4 +84,5 @@ button {
   margin: 1rem;
   border: 1px solid #0c9e86;
   background-color: white;
+  word-break: break-word;
 }
