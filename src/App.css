@@ -58,6 +58,13 @@ video {
   margin: 1em 0;
 }
 
+button {
+  background-color: #0c9e86;
+  color: #fff;
+  border: 1px solid #0c9e86;
+  cursor: pointer;
+}
+
 .justified {
   text-align: justify;
 }
@@ -69,6 +76,7 @@ video {
 
 .info {
   color: #999;
+  font-size: smaller;
 }
 
 .pure-u-wrapper {

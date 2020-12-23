@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { createContext, useReducer, useContext, useEffect, useState } from 'react';
 import './App.css';
 
 import { BrowserRouter, Route, Link, Switch, useParams, Redirect } from 'react-router-dom';
@@ -12,17 +12,73 @@ One-liner to grab episodes:
 
 */
 
+// Global state
+
+const initialState = localStorage.savedState
+  ? JSON.parse(localStorage.savedState)
+  : {
+      watchHistory: [],
+    };
+
+const stateReducer = (state, action) => {
+  switch (action.type) {
+    case 'AddToWatchHistory':
+      let watchHistory = state.watchHistory;
+      if (!watchHistory.includes(action.id)) {
+        watchHistory.push(action.id);
+      }
+      return { ...state, watchHistory };
+    case 'RemoveFromWatchHistory':
+      return {
+        ...state,
+        watchHistory: state.watchHistory.filter((x) => x !== action.id),
+      };
+    default:
+      return state;
+  }
+};
+
+const StoreContext = createContext();
+
+function Store({ children }) {
+  const [state, dispatch] = useReducer(stateReducer, initialState);
+
+  useEffect(() => {
+    localStorage.savedState = JSON.stringify(state);
+  }, [state]);
+
+  return <StoreContext.Provider value={[state, dispatch]}>{children}</StoreContext.Provider>;
+}
+
 const findByid = (array, id) => {
   return array.find((item) => item.id === id);
 };
 
 function Homepage() {
-  const seriesTemplate = (s) => (
-    <p key={s.id}>
-      <Link to={`/${s.id}`}>{s.title}</Link>{' '}
-      <span className='info'>{s.episodes.length} episodes</span>
-    </p>
-  );
+  const [state] = useContext(StoreContext);
+
+  const seriesTemplate = (s) => {
+    const episodeCount = s.episodes.length;
+    const watchedCount = s.episodes.reduce((total, episode) => {
+      total += state.watchHistory.includes(episode.id) ? 1 : 0;
+      return total;
+    }, 0);
+
+    return (
+      <p key={s.id}>
+        <Link to={`/${s.id}`}>{s.title}</Link>{' '}
+        <span className='info'>
+          {watchedCount ? (
+            <>
+              {watchedCount}/{episodeCount} episodes
+            </>
+          ) : (
+            <>{episodeCount} episodes</>
+          )}
+        </span>
+      </p>
+    );
+  };
 
   return (
     <div id='homepage-container' className='pure-u-wrapper'>
@@ -63,6 +119,8 @@ function Homepage() {
 
 function Series() {
   const { series_id } = useParams();
+  const [state] = useContext(StoreContext);
+
   const series = findByid(archive.series, series_id);
 
   if (!series) {
@@ -71,7 +129,8 @@ function Series() {
 
   const episodeTemplate = (e) => (
     <p key={e.id}>
-      <Link to={`/${series_id}/${e.id}`}>{e.title}</Link>
+      <Link to={`/${series_id}/${e.id}`}>{e.title}</Link>{' '}
+      {state.watchHistory.includes(e.id) ? <span className='info'>watched</span> : null}
     </p>
   );
 
@@ -97,11 +156,26 @@ function Series() {
 }
 
 function Episode() {
-  console.log(useParams());
   const { series_id, episode_id } = useParams();
+  const [state, dispatch] = useContext(StoreContext);
+  const [watched, setWatched] = useState(state.watchHistory.includes(episode_id));
+
+  console.log(useParams());
   const series = findByid(archive.series, series_id);
   const episode = findByid(series.episodes, episode_id);
   console.log({ series_id, episode_id });
+
+  function addToWatchHistory() {
+    dispatch({ type: 'AddToWatchHistory', id: episode_id });
+    setWatched(true);
+  }
+
+  function removeFromWatchHistory(e) {
+    console.log(`Removing ${episode_id} from watch history`);
+    dispatch({ type: 'RemoveFromWatchHistory', id: episode_id });
+    console.log(state.watchHistory);
+    setWatched(false);
+  }
 
   if (!episode) {
     return <Redirect to='/not-found' />;
@@ -118,7 +192,15 @@ function Episode() {
       </nav>
       <h1>{episode.title}</h1>
       <hr />
-      <video controls src={src} />
+      <video controls src={src} onPlay={addToWatchHistory} />
+
+      {watched ? (
+        <p className='info'>
+          You've watched this episode.{' '}
+          <button onClick={removeFromWatchHistory}>Remove from watch history</button>
+        </p>
+      ) : null}
+
       <hr />
       <nav>
         <Link to={`/`}>Home</Link> / <Link to={`/${series.id}`}>{series.title}</Link> /{' '}
@@ -154,39 +236,41 @@ const Credits = () => (
 function App() {
   console.log(archive);
   return (
-    <BrowserRouter>
-      <div className='pure-g'>
-        <div className='pure-u-1 pure-u-lg-1-2'>
-          <Switch>
-            <Route exact path='/'>
-              <Homepage />
-            </Route>
+    <Store>
+      <BrowserRouter>
+        <div className='pure-g'>
+          <div className='pure-u-1 pure-u-lg-1-2'>
+            <Switch>
+              <Route exact path='/'>
+                <Homepage />
+              </Route>
 
-            <Route exact path='/credits'>
-              <Credits />
-            </Route>
+              <Route exact path='/credits'>
+                <Credits />
+              </Route>
 
-            <Route path='/not-found'>
-              <div className='pure-u-wrapper'>
-                <h1>Not found!</h1>
-                <hr />
-                <p>
-                  <Link to='/'>Go home</Link>.
-                </p>
-              </div>
-            </Route>
+              <Route path='/not-found'>
+                <div className='pure-u-wrapper'>
+                  <h1>Not found!</h1>
+                  <hr />
+                  <p>
+                    <Link to='/'>Go home</Link>.
+                  </p>
+                </div>
+              </Route>
 
-            <Route path='/:series_id/:episode_id'>
-              <Episode />
-            </Route>
+              <Route path='/:series_id/:episode_id'>
+                <Episode />
+              </Route>
 
-            <Route path='/:series_id'>
-              <Series />
-            </Route>
-          </Switch>
+              <Route path='/:series_id'>
+                <Series />
+              </Route>
+            </Switch>
+          </div>
         </div>
-      </div>
-    </BrowserRouter>
+      </BrowserRouter>
+    </Store>
   );
 }
 
