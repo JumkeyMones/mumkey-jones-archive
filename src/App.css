@@ -67,6 +67,10 @@ video {
   color: #0c9e86;
 }
 
+.info {
+  color: #999;
+}
+
 .pure-u-wrapper {
   padding: 1rem;
   margin: 1rem;

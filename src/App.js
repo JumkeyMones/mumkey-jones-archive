@@ -19,7 +19,8 @@ const findByid = (array, id) => {
 function Homepage() {
   const seriesTemplate = (s) => (
     <p key={s.id}>
-      <Link to={`/${s.id}`}>{s.title}</Link>
+      <Link to={`/${s.id}`}>{s.title}</Link>{' '}
+      <span className='info'>{s.episodes.length} episodes</span>
     </p>
   );
 
