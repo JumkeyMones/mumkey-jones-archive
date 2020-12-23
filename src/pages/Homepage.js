@@ -1,8 +1,9 @@
 import { useContext } from 'react';
 import { Link } from 'react-router-dom';
+import { StoreContext } from '../components/Store';
 
-export default function Homepage({ context, archive }) {
-  const [state] = useContext(context);
+export default function Homepage({ archive }) {
+  const [state] = useContext(StoreContext);
 
   const seriesTemplate = (s) => {
     const episodeCount = s.episodes.length;

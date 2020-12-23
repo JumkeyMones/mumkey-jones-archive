@@ -1,10 +1,11 @@
 import { useContext, useState } from 'react';
 import { Link, Redirect, useParams } from 'react-router-dom';
+import { StoreContext } from '../components/Store';
 import findById from '../utils/findById';
 
-export default function Episode({ context, archive }) {
+export default function Episode({ archive }) {
   const { series_id, episode_id } = useParams();
-  const [state, dispatch] = useContext(context);
+  const [state, dispatch] = useContext(StoreContext);
   const [watched, setWatched] = useState(state.watchHistory.includes(episode_id));
 
   console.log(useParams());

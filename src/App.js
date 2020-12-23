@@ -2,7 +2,7 @@ import React from 'react';
 import { BrowserRouter, Link, Route, Switch } from 'react-router-dom';
 import './App.css';
 import archive from './archive/index.js';
-import { Store, StoreContext } from './components/Store';
+import { Store } from './components/Store';
 import Credits from './pages/Credits';
 import Episode from './pages/Episode';
 import Homepage from './pages/Homepage';
@@ -23,7 +23,7 @@ function App() {
           <div className='pure-u-1 pure-u-lg-1-2'>
             <Switch>
               <Route exact path='/'>
-                <Homepage context={StoreContext} archive={archive} />
+                <Homepage archive={archive} />
               </Route>
 
               <Route exact path='/credits'>
@@ -41,11 +41,11 @@ function App() {
               </Route>
 
               <Route path='/:series_id/:episode_id'>
-                <Episode context={StoreContext} archive={archive} />
+                <Episode archive={archive} />
               </Route>
 
               <Route path='/:series_id'>
-                <Series context={StoreContext} archive={archive} />
+                <Series archive={archive} />
               </Route>
             </Switch>
           </div>
