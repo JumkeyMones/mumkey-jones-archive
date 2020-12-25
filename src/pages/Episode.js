@@ -1,5 +1,6 @@
 import { useContext, useState } from 'react';
 import { Link, Redirect, useParams } from 'react-router-dom';
+import Page from '../components/Page';
 import { StoreContext } from '../components/Store';
 import findById from '../utils/findById';
 
@@ -34,12 +35,11 @@ export default function Episode({ archive }) {
     : `https://ipfs.io/ipfs/${episode.video}`;
 
   return (
-    <div id='episode-container' className='pure-u-wrapper'>
+    <Page pageTitle={episode.title}>
       <nav>
-        <Link to={`/`}>Home</Link> / <Link to={`/${series.id}`}>{series.title}</Link> /
+        <Link to={`/${series.id}`}>{series.title}</Link>
       </nav>
-      <h1>{episode.title}</h1>
-      <hr />
+
       <video controls src={src} onPlay={addToWatchHistory} />
 
       {watched ? (
@@ -48,12 +48,6 @@ export default function Episode({ archive }) {
           <button onClick={removeFromWatchHistory}>Remove from watch history</button>
         </p>
       ) : null}
-
-      <hr />
-      <nav>
-        <Link to={`/`}>Home</Link> / <Link to={`/${series.id}`}>{series.title}</Link> /{' '}
-        {episode.title}
-      </nav>
-    </div>
+    </Page>
   );
 }

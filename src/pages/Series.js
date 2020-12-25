@@ -1,5 +1,6 @@
 import { useContext } from 'react';
 import { Link, Redirect, useParams } from 'react-router-dom';
+import Page from '../components/Page';
 import { StoreContext } from '../components/Store';
 import findById from '../utils/findById';
 
@@ -20,23 +21,5 @@ export default function Series({ archive }) {
     </p>
   );
 
-  return (
-    <div id='series-container' className='pure-u-wrapper'>
-      <nav>
-        <Link to={`/`}>Home</Link> /
-      </nav>
-
-      <h1>{series.title}</h1>
-
-      <hr />
-
-      {series.episodes.map(episodeTemplate)}
-
-      <hr />
-
-      <nav>
-        <Link to={`/`}>Home</Link> / {series.title}
-      </nav>
-    </div>
-  );
+  return <Page pageTitle={series.title}>{series.episodes.map(episodeTemplate)}</Page>;
 }

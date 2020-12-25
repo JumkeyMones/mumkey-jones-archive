@@ -1,11 +1,17 @@
-import { Link } from 'react-router-dom';
+import Page from '../components/Page';
 
 export default function Credits() {
   return (
-    <div id='episode-container' className='pure-u-wrapper'>
-      <h1>Credits</h1>
-      <hr />
+    <Page pageTitle='Credits'>
       <p>Boy, I sure hope someone got a promotion for this good work!</p>
+
+      <h2>Maintainers</h2>
+
+      <p>Archive: Lyckra#1075 on Discord</p>
+
+      <p>Website: Leaky Eyed Luca#4358 on Discord</p>
+
+      <h2>Sources</h2>
 
       {[
         'https://mumkeyjones.tv/',
@@ -18,10 +24,6 @@ export default function Credits() {
           <a href={e}>{e}</a>
         </p>
       ))}
-      <hr />
-      <nav>
-        <Link to={`/`}>Home</Link>
-      </nav>
-    </div>
+    </Page>
   );
 }

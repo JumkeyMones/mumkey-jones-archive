@@ -1,62 +1,49 @@
-import { useContext } from 'react';
 import { Link } from 'react-router-dom';
-import { StoreContext } from '../components/Store';
+import Page from '../components/Page';
 
-export default function Homepage({ archive }) {
-  const [state] = useContext(StoreContext);
-
-  const seriesTemplate = (s) => {
-    const episodeCount = s.episodes.length;
-    const watchedCount = s.episodes.reduce((total, episode) => {
-      total += state.watchHistory.includes(episode.id) ? 1 : 0;
-      return total;
-    }, 0);
-
-    return (
-      <p key={s.id}>
-        <Link to={`/${s.id}`}>{s.title}</Link>{' '}
-        <span className='info'>
-          {watchedCount ? (
-            <>
-              {watchedCount}/{episodeCount} episodes
-            </>
-          ) : (
-            <>{episodeCount} episodes</>
-          )}
-        </span>
-      </p>
-    );
-  };
-
+export default function Homepage() {
   return (
-    <div id='homepage-container' className='pure-u-wrapper'>
+    <Page pageTitle='The Mumkey Jones Archive'>
       <img id='logo' src='/logo512.png' alt='Mumkey Jones logo' />
-      <h1>{archive.title}</h1>
-
-      <hr />
 
       <p>Welcome to the Mumkey Jones Archive (.org edition)!</p>
-
       <p>
-        All credits go to the <Link to='/credits'>folks</Link> who preserved the videos. This
-        website is just a wrapper to make it easier to watch them.
+        This is a fan-run archive, and a companion/spiritual successor to Mumkey's own site,{' '}
+        <a href='https://mumkeyjones.tv'>MumkeyJones.tv</a>.
       </p>
-
+      <p>
+        Backups of Mumkey's videos have been uploaded to the Internet Archive. This website acts as
+        a simple, unified way to watch them, with some additional quality-of-life improvements
+        (watch history, etc...).
+      </p>
       <p>
         Unlike Susan, Archive.org does it for free, so please be patient if the videos start
-        buffering.
+        buffering!
+      </p>
+      <p>
+        If you don't know where to start, the <em>Mumkey Condensed Experience</em> in the{' '}
+        <Link to='/archive'>archive</Link> includes all the major Mumkey videos in chronological
+        order.
       </p>
 
+      <h2>Want to help?</h2>
+      <p>
+        To support the man, the monkey, the legend, see <Link to='/about-mumkey'>about Mumkey</Link>
+        .
+      </p>
+      <p>
+        To get in touch with the archive maintainers, check the <Link to='/credits'>credits</Link>{' '}
+        page.
+      </p>
+      <p>
+        There is a list of <a href='https://pastebin.com/fdR8HYsi'>missing episodes</a>, send a mail
+        to <a href='mailto:mumkeyjonesarchive@icloud.com'>mumkeyjonesarchive@icloud.com</a> if you
+        have any information about them.
+      </p>
       <p>
         The <a href='https://github.com/JumkeyMones/mumkey-jones-archive'>source code</a> for this
         website is available on GitHub.
       </p>
-
-      <hr />
-
-      {archive.series.map(seriesTemplate)}
-
-      <p>More coming soon!™</p>
-    </div>
+    </Page>
   );
 }
