@@ -7,7 +7,10 @@ export default function Credits() {
 
       <h2>Maintainers</h2>
 
-      <p>Archive: Lyckra#1075 on Discord</p>
+      <p>
+        Archive: <a href='https://twitter.com/realUncleAlex'>@realUncleAlex</a>, aka Lyckra#1075 on
+        Discord
+      </p>
 
       <p>Website: Leaky Eyed Luca#4358 on Discord</p>
 
