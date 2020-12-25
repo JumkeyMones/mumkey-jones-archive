@@ -10,7 +10,7 @@ export default Series("Mumkey's Anime Reviews", [
     'https://archive.org/download/mumkeyjones/Mumkey%27s%20Anime%20Reviews/Season%201/S1E2%20Death%20Note%20_%20Mumkey%27s%20Anime%20Reviews%20%232-fjG30_dThNY.ia.mp4'
   ),
   Episode(
-    "B Gata H Kei - Yamada's First Time - Mumkey's Anime Reviews #3-r80kSTVoPUY",
+    "B Gata H Kei - Yamada's First Time - Mumkey's Anime Reviews #3",
     'https://archive.org/download/mumkeyjones/Mumkey%27s%20Anime%20Reviews/Season%201/S1E3%20B%20Gata%20H%20Kei%20-%20Yamada%27s%20First%20Time%20_%20Mumkey%27s%20Anime%20Reviews%20%233-r80kSTVoPUY.ia.mp4'
   ),
   Episode(
