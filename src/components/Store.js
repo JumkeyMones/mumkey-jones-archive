@@ -1,41 +1,43 @@
-import { createContext, useEffect, useReducer } from 'react';
+import Dexie from 'dexie';
+import { useEffect, useState } from 'react';
 
-// Global state
+const db = new Dexie('MumkeyJonesArchive');
+db.version(1).stores({
+  episodes: '&id, currentTime',
+});
 
-const initialState = localStorage.savedState
-  ? JSON.parse(localStorage.savedState)
-  : {
-      watchHistory: [],
-    };
-
-const stateReducer = (state, action) => {
-  switch (action.type) {
-    case 'AddToWatchHistory':
-      let watchHistory = state.watchHistory;
-      if (!watchHistory.includes(action.id)) {
-        watchHistory.push(action.id);
-      }
-      return { ...state, watchHistory };
-    case 'RemoveFromWatchHistory':
-      return {
-        ...state,
-        watchHistory: state.watchHistory.filter((x) => x !== action.id),
-      };
-    default:
-      return state;
+class WatchHistoryManager {
+  constructor(db) {
+    this.episodes = db.episodes;
   }
-};
 
-const StoreContext = createContext();
+  async save(episode_id, progress) {
+    await this.episodes.put({ id: episode_id, currentTime: progress });
+  }
 
-function Store({ children }) {
-  const [state, dispatch] = useReducer(stateReducer, initialState);
+  async remove(episode_id) {
+    await this.episodes.delete(episode_id);
+  }
 
-  useEffect(() => {
-    localStorage.savedState = JSON.stringify(state);
-  }, [state]);
+  async get(episode_id) {
+    return await this.episodes.get(episode_id);
+  }
 
-  return <StoreContext.Provider value={[state, dispatch]}>{children}</StoreContext.Provider>;
+  async all() {
+    return await db.episodes.toArray();
+  }
 }
 
-export { Store, StoreContext };
+const watchHistoryManager = new WatchHistoryManager(db);
+
+function useWatchHistory() {
+  const [watchHistory, setWatchHistory] = useState([]);
+
+  useEffect(() => {
+    watchHistoryManager.all().then((episodes) => setWatchHistory(episodes));
+  });
+
+  return watchHistory;
+}
+
+export { db, watchHistoryManager, useWatchHistory };

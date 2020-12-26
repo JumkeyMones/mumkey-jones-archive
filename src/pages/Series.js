@@ -1,12 +1,11 @@
-import { useContext } from 'react';
 import { Link, Redirect, useParams } from 'react-router-dom';
 import Page from '../components/Page';
-import { StoreContext } from '../components/Store';
+import { useWatchHistory } from '../components/Store';
 import findById from '../utils/findById';
 
 export default function Series({ archive }) {
   const { series_id } = useParams();
-  const [state] = useContext(StoreContext);
+  const watchHistory = useWatchHistory();
 
   const series = findById(archive.series, series_id);
 
@@ -17,7 +16,7 @@ export default function Series({ archive }) {
   const episodeTemplate = (e) => (
     <p key={e.id}>
       <Link to={`/${series_id}/${e.id}`}>{e.title}</Link>{' '}
-      {state.watchHistory.includes(e.id) ? <span className='info'>watched</span> : null}
+      {findById(watchHistory, e.id) ? <span className='info'>watched</span> : null}
     </p>
   );
 

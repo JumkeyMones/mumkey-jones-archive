@@ -1,15 +1,15 @@
-import { useContext } from 'react';
 import { Link } from 'react-router-dom';
 import Page from '../components/Page';
-import { StoreContext } from '../components/Store';
+import { useWatchHistory } from '../components/Store';
+import findById from '../utils/findById';
 
 export default function Homepage({ archive }) {
-  const [state] = useContext(StoreContext);
+  const watchHistory = useWatchHistory();
 
   const seriesTemplate = (s) => {
     const episodeCount = s.episodes.length;
     const watchedCount = s.episodes.reduce((total, episode) => {
-      total += state.watchHistory.includes(episode.id) ? 1 : 0;
+      total += findById(watchHistory, episode.id) ? 1 : 0;
       return total;
     }, 0);
 
