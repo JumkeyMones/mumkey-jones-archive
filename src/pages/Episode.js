@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Link, Redirect, useParams } from 'react-router-dom';
 import Page from '../components/Page';
-import { useWatchHistory, watchHistoryManager } from '../components/Store';
+import { watchHistoryManager } from '../components/Store';
 import findById from '../utils/findById';
 
 export default function Episode({ archive }) {
@@ -27,12 +27,14 @@ export default function Episode({ archive }) {
     return <Redirect to='/not-found' />;
   }
 
-  async function removeFromWatchHistory(e) {
+  async function removeFromWatchHistory() {
     await watchHistoryManager.remove(episode_id);
+    setWatched(false);
   }
 
   async function saveCurrentTime(progress) {
     await watchHistoryManager.save(episode_id, progress);
+    setWatched(true);
   }
 
   const src = episode.video.startsWith('http')
